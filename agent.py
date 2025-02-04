@@ -106,7 +106,7 @@ evaluator_agent = AssistantAgent(
         "Provide constructive feedback if improvements are needed.\n"
         "At the end of your evaluation, explicitly state whether the response is 'satisfactory' or 'unsatisfactory'.\n"
         "If the response is unsatisfactory, provide specific feedback on what needs to be improved.\n"
-        "Include the original query in your feedback so the QueryRefinerAgent can refine it."
+        "Include the original query in your feedback."
     ),
     llm_config=LLM_CONFIG
 )

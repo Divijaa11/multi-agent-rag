@@ -2,26 +2,36 @@ from agent import user_proxy, retriever_agent, context_agent, generator_agent, e
 
 
 def state_transition(last_speaker, groupchat):
+    """Controls agent transitions based on workflow logic."""
     if last_speaker is user_proxy:
+        print("Transitioning: UserProxy → RetrieverAgent")
         return retriever_agent
     elif last_speaker is retriever_agent:
+        print("Transitioning: RetrieverAgent → ContextAgent")
         return context_agent
     elif last_speaker is context_agent:
+        print("Transitioning: ContextAgent → GeneratorAgent")
         return generator_agent
     elif last_speaker is generator_agent:
+        print("Transitioning: GeneratorAgent → EvaluatorAgent")
         return evaluator_agent
     elif last_speaker is evaluator_agent:
-        last_message = groupchat.messages[-1]["content"]
-        
-        if "satisfactory" in last_message.lower():
-            return None
+        last_message = groupchat.messages[-1]["content"].strip().lower()
 
-        query_refiner_count = sum(1 for msg in groupchat.messages if msg["name"] == "QueryRefinerAgent")
-            
-        if query_refiner_count >= 3: 
-            return None
+        if "unsatisfactory" in last_message:
+            query_refiner_count = sum(1 for msg in groupchat.messages if msg["name"] == "QueryRefinerAgent")
+            print(f"Query Refinement Count: {query_refiner_count}")
+
+            if query_refiner_count >= 3: 
+                print("Max Query Refinement reached. Ending process.")
+                return None
+
+            print("Restarting Query Refinement...")
+            return query_refiner_agent
         
-        return query_refiner_agent
+        print("Transitioning: EvaluatorAgent → End (Satisfactory)")
+        return None
     
     elif last_speaker is query_refiner_agent:
+        print("Transitioning: QueryRefinerAgent → RetrieverAgent")
         return retriever_agent

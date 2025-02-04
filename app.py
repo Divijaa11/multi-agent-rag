@@ -13,7 +13,7 @@ register_function(
 )
 
 groupchat = GroupChat(
-    agents=[user_proxy, retriever_agent,context_agent, generator_agent, evaluator_agent, query_refiner_agent ],
+    agents=[user_proxy, retriever_agent, context_agent, generator_agent, evaluator_agent, query_refiner_agent ],
     messages=[],
     max_round=6,
     speaker_selection_method=state_transition
