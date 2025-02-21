@@ -20,17 +20,20 @@ retriever_agent = AssistantAgent(
     system_message="Use the function `retrieve_contexts` to retrieve relevant contexts from the database.",
     llm_config={
         "config_list": CONFIG_LIST,
-        "functions": [
+        "tools": [ 
             {
-                "name": "retrieve_contexts",
-                "description": "Fetch relevant contexts from the database based on a query.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "query": {"type": "string", "description": "The user's search query"},
+                "type": "function", 
+                "function": {
+                    "name": "retrieve_contexts",
+                    "description": "Fetch relevant contexts from the database based on a query.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "query": {"type": "string", "description": "The user's search query"},
+                        },
+                        "required": ["query"],
                     },
-                    "required": ["query"],
-                },
+                }
             }
         ]
     }

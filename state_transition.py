@@ -19,13 +19,6 @@ def state_transition(last_speaker, groupchat):
         last_message = groupchat.messages[-1]["content"].strip().lower()
 
         if "unsatisfactory" in last_message:
-            query_refiner_count = sum(1 for msg in groupchat.messages if msg["name"] == "QueryRefinerAgent")
-            print(f"Query Refinement Count: {query_refiner_count}")
-
-            if query_refiner_count >= 3: 
-                print("Max Query Refinement reached. Ending process.")
-                return None
-
             print("Restarting Query Refinement...")
             return query_refiner_agent
         

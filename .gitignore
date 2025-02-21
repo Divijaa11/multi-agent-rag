@@ -1,5 +1,6 @@
 .env
 __pycache__
 .cache
-Asset_management
-chroma-transportation-asset-pavement-management
+Asset_management*
+chroma-transportation-asset-pavement-management*
+commands.txt
